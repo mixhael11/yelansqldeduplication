@@ -26,7 +26,7 @@ public class YELAN {
     private static final String DB_URL = "jdbc:mysql://localhost:3306/yelanbase";
     private static final String DB_USER = "root";
     private static final String DB_PASSWORD = "Yelan$31";
-    private static final int BATCH_SIZE = 100; // Adjust as needed
+    private static final int BATCH_SIZE = 100; 
     private static final ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     public static void main(String[] args) throws Exception {
@@ -93,12 +93,12 @@ public class YELAN {
             synchronized (YELAN.class) {
                 added++;
             }
-            if (query.length() > BATCH_SIZE * 10) { // Check if batch size reached or buffer is close to capacity
+            if (query.length() > BATCH_SIZE * 10) { 
                 synchronized (query) {
                     executeBatchInsert(con, query);
                 }
             }
-            movefile(imgPath); // Move file to "I LOVE YELAN" folder
+            movefile(imgPath); 
         } else {
             System.out.println(file + " is already in database at " + hexString);
             synchronized (YELAN.class) {
@@ -152,13 +152,13 @@ public class YELAN {
 
     public static void executeBatchInsert(Connection con, StringBuilder query) throws SQLException {
         if (query.charAt(query.length() - 1) == ',') {
-            query.setLength(query.length() - 1); // Remove the trailing comma
+            query.setLength(query.length() - 1); 
         }
         String sql = query.toString();
         try (PreparedStatement p = con.prepareStatement(sql)) {
             p.execute();
         }
-        query.setLength(0); // Clear the query for the next batch
+        query.setLength(0); 
         query.append("insert into yelanr (PicID, Filename, height, width) values ");
     }
     
